@@ -1,0 +1,82 @@
+
+```{r}
+#| label: fig-barplot
+#| cache: true
+#| cache.comments: false
+#| fig-cap: "QoL by EF (alternative 1)"
+
+figdata <- rsdata %>%
+  group_by(shf_ef_cat, .drop = F) %>%
+  count(shf_qol_cat) %>%
+  mutate(
+    p = n / sum(n) * 100
+  ) %>%
+  ungroup()
+
+p <- ggplot(figdata, aes(x = shf_ef_cat, y = p, fill = shf_qol_cat)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_y_continuous(limits = c(0, 100)) +
+  theme_classic() +
+  theme(
+    text = element_text(size = 22),
+    legend.position = "bottom",
+    legend.box = "vertical",
+    axis.title.x = element_blank()
+  ) +
+  labs(y = "Proportion (%)", fill = "QoL") +
+  geom_text(aes(label = fn(p, dec = 0)), position = position_dodge(width = 0.9), vjust = -0.25, size = 8)
+
+create_pptx(p)
+p
+```
+
+```{r}
+#| label: fig-violinplot
+#| cache: true
+#| cache.comments: false
+#| fig-cap: "QoL by EF (alternative 2)"
+
+p <- ggplot(rsdata, aes(x = shf_ef_cat, y = shf_qol, fill = shf_ef_cat)) +
+  geom_violin(trim = FALSE) +
+  geom_boxplot(width = 0.1, fill = "white") +
+  scale_fill_brewer(palette = "Dark2") +
+  coord_cartesian(ylim = c(0, 100)) +
+  theme_classic() +
+  theme(
+    text = element_text(size = 22),
+    legend.position = "none",
+    axis.title.x = element_blank()
+  ) +
+  labs(y = "QoL")
+
+create_pptx(p)
+p
+```
+
+```{r}
+#| label: fig-violinplot-sex
+#| cache: true
+#| cache.comments: false
+#| fig-cap: "QoL by EF and sex (alternative 3)"
+
+p <- ggplot(rsdata, aes(x = shf_ef_cat, y = shf_qol, fill = shf_sex)) +
+  geom_split_violin(trim = FALSE) +
+  geom_boxplot(width = 0.25, notch = FALSE, notchwidth = .4, outlier.shape = NA, coef = 0) +
+  scale_fill_manual(
+    values = global_cols[1:2],
+    guide = guide_legend(override.aes = list(color = global_cols[1:2]))
+  ) +
+  coord_cartesian(ylim = c(0, 100)) +
+  theme_classic() +
+  theme(
+    text = element_text(size = 22),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    axis.title.x = element_blank()
+  ) +
+  labs(y = "QoL")
+
+create_pptx(p)
+p
+```
