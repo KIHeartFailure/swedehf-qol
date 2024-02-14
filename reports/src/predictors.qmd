@@ -93,12 +93,12 @@ xmin <- .5
 xmax <- 9
 
 p1 <- ggplot(adj %>% filter(qol == "0-25"), aes(x = or, y = var2, color = cols)) +
+  # Add a reference dashed line at 1
+  geom_vline(xintercept = 1, linetype = "dashed", color = "grey", linewidth = 0.6) +
   # Add dot plot and error bars
   geom_errorbar(aes(xmin = lci, xmax = uci), width = 0.35, linewidth = 0.3) +
   geom_point(size = 1.5, shape = 15) +
-  # Add a reference dashed line at 1
-  geom_vline(xintercept = 1, linetype = "longdash", color = "grey") +
-  scale_color_manual(values = global_cols[c(2, 3, 1)]) +
+  scale_color_manual(values = global_cols[c(3, 2, 1)]) +
   theme_classic() +
   theme(
     text = element_text(size = size_use),
@@ -129,12 +129,12 @@ t_or1 <- ggplot(adj %>% filter(qol == "0-25")) +
   )
 
 p2 <- ggplot(adj %>% filter(qol == "26-50"), aes(x = or, y = var2, color = cols)) +
+  # Add a reference dashed line at 1
+  geom_vline(xintercept = 1, linetype = "dashed", color = "grey", linewidth = 0.6) +
   # Add dot plot and error bars
   geom_errorbar(aes(xmin = lci, xmax = uci), width = 0.35, linewidth = 0.3) +
   geom_point(size = 1.5, shape = 15) +
-  # Add a reference dashed line at 1
-  geom_vline(xintercept = 1, linetype = "longdash", color = "grey") +
-  scale_color_manual(values = global_cols[c(2, 3, 1)]) +
+  scale_color_manual(values = global_cols[c(3, 2, 1)]) +
   theme_classic() +
   theme(
     text = element_text(size = size_use),
@@ -165,12 +165,12 @@ t_or2 <- ggplot(adj %>% filter(qol == "26-50")) +
   )
 
 p3 <- ggplot(adj %>% filter(qol == "51-75"), aes(x = or, y = var2, color = cols)) +
+  # Add a reference dashed line at 1
+  geom_vline(xintercept = 1, linetype = "dashed", color = "grey", linewidth = 0.6) +
   # Add dot plot and error bars
   geom_errorbar(aes(xmin = lci, xmax = uci), width = 0.35, linewidth = 0.3) +
   geom_point(size = 1.5, shape = 15) +
-  # Add a reference dashed line at 1
-  geom_vline(xintercept = 1, linetype = "longdash", color = "grey") +
-  scale_color_manual(values = global_cols[c(2, 3, 1)]) +
+  scale_color_manual(values = global_cols[c(3, 2, 1)]) +
   theme_classic() +
   theme(
     text = element_text(size = size_use),
@@ -216,8 +216,8 @@ labs <- ggplot(adj %>% filter(qol == "0-25"), aes(x = or, y = var2)) +
     axis.text.x = element_text(color = "white")
   )
 
-pall1 <- t_or1 + p1 +
-  plot_layout(widths = c(2.2, 3.5)) +
+pall1 <- p1 + t_or1 +
+  plot_layout(widths = c(3.5, 2.2)) +
   plot_annotation(
     title = "QoL 0-25 vs 76-100",
     subtitle = "Odds Ratio (95% CI)",
@@ -227,8 +227,8 @@ pall1 <- t_or1 + p1 +
     )
   )
 
-pall2 <- t_or2 + p2 +
-  plot_layout(widths = c(2.2, 3.5)) +
+pall2 <- p2 + t_or2 +
+  plot_layout(widths = c(3.5, 2.2)) +
   plot_annotation(
     title = "QoL 26-50 vs 76-100",
     subtitle = "Odds Ratio (95% CI)",
@@ -238,8 +238,8 @@ pall2 <- t_or2 + p2 +
     )
   )
 
-pall3 <- t_or3 + p3 +
-  plot_layout(widths = c(2.2, 3.5)) +
+pall3 <- p3 + t_or3 +
+  plot_layout(widths = c(3.5, 2.2)) +
   plot_annotation(
     title = "QoL 51-75 vs 76-100",
     subtitle = "Odds Ratio (95% CI)",
@@ -259,7 +259,7 @@ labs <- labs +
     )
   )
 
-pall <- wrap_elements(labs) + wrap_elements(pall1) + wrap_elements(pall2) + wrap_elements(pall3) +
+pall <- wrap_elements(labs) + wrap_elements(pall3) + wrap_elements(pall2) + wrap_elements(pall1) +
   plot_layout(nrow = 1, widths = c(1.5, 2, 2, 2))
 
 create_pptx(pall)
