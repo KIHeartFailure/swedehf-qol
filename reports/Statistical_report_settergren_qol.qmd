@@ -146,7 +146,7 @@ differences between groups with the chi-square test.
 Continuous variables are presented with median [first quartile-third quartile] and tested for 
 differences between groups with the Kruskal-Wallis test. 
 
-Separate analyses were further performed for the respective EF groups. 
+Separate analyses were further performed for the respective EF groups and in/out-patients. 
 
 FRÅGA: Kolla noga igenom variabler i tabell, ska några läggas till? Kontrollera även regressions variabler, lägga till? Ta bort?
 
@@ -154,10 +154,6 @@ FRÅGA: Kolla noga igenom variabler i tabell, ska några läggas till? Kontrolle
 
 The association between baseline characteristics and QoL was evaluated using a multivariable multinominal regression 
 including the variables indicated in @tbl-base (all shown in @fig-predictors). The variables were selected based on clinical relevance. 
-
-FRÅGA: Ska out of breath mm (övriga qol variabler) justeras för???? Är dessa en del av QoL?
-
-FRÅGA: Ska detta göras uppdelat på EF (så associationer mellan QoL och baseline char INOM respektive EF grupp)? 
 
 ### Assumptions
 
@@ -173,7 +169,7 @@ The following outcomes are considered:
 - `r paste0(outvars$name[3], " (", outvars$shortname[3], ")")`
 - `r paste0(outvars$name[4], " (", outvars$shortname[4], ")")`
 
-Time to first events were presented with cumulative incidence curves by QoL. Separate figures were also performed for the respective EF groups. 
+Time to first events were presented with cumulative incidence curves by QoL. Separate figures were also performed for the respective EF groups and in/out-patients. 
 
 Crude and adjusted analyses were performed where adjustment was performed for 
 variables indicated in @tbl-base. 
@@ -182,22 +178,10 @@ Cox proportional hazards regressions were used to model the time to first event.
 As a consistency analysis for the secondary outcomes, a sub-distributional hazards model[@fg] was used, 
 where deaths not defined as an event were treated as competing events.
 
-Data were censored at `r global_followup_years` years follow-up, 2021-12-31 or emigration from Sweden. 
+Data were censored at `r global_followup_months` months follow-up, 2021-12-31 or emigration from Sweden. 
 In the Cox proportional hazard regression censoring was also performed at death from other causes than the event. 
 
-Separate analyses were further performed for the respective EF groups. 
-
-FRÅGA: SKA KLIPPA TID VID 5 ÅR?  1ÅR? 10 år? Aldrig? 
-
-FRÅGA: OK utfall?
-
-### Association between outcomes and QoL - Subgroups
-
-Associations across pre-specified subgroups were evaluated using an interaction term between QoL and the 
-respective variable for the primary outcome and presented in a Forest plot. 
-
-FRÅGA: Ska göras för alla utfall eller räcker med primärt utfall?
-FRÅGA: Om alla utfall, FUNDERA PÅ ATT EV TA BORT utfallstab uppdelat på EF. Finns i Subgrupps forestplot. note to self: ändra då KM fig så tas från interaktionsmodell och inte subgrupper. 
+Separate analyses were further performed for the respective EF groups and in/out-patients. 
 
 ### Assumptions
 
@@ -232,8 +216,6 @@ The median (q1-q3) age is `r med` and `r percfem`% females.
 
 {{< include src/bar.qmd >}}
 
-FRÅGA: Vilken/vilka fig vill ni ha? 
-
 ## Independent associations between baseline characteristics and QoL
 
 {{< include src/predictors.qmd >}}
@@ -243,15 +225,15 @@ FRÅGA: Vilken/vilka fig vill ni ha?
 ```{r}
 medsurv <- rsdata %>%
   summarise(
-    med = fn(median(sos_outtime_death / 365.25 * 12), dig = 0),
-    min = fn(min(sos_outtime_death / 365.25 * 12), dig = 0),
-    max = fn(max(sos_outtime_death / 365.25 * 12), dig = 0)
+    med = fn(median(sos_outtime_death / 30.5), dig = 0),
+    min = fn(min(sos_outtime_death / 30.5), dig = 0),
+    max = fn(max(sos_outtime_death / 30.5), dig = 0)
   ) %>%
   mutate(out = paste0(med, " (", min, "-", max, ")")) %>%
   pull(out)
 
 sumsurv <- rsdata %>%
-  summarise(sumpy = fn(sum(sos_outtime_death) / 365.25, dig = 0)) %>%
+  summarise(sumpy = fn(sum(sos_outtime_death) / 30.5, dig = 0)) %>%
   pull(sumpy)
 ```
 
@@ -263,12 +245,6 @@ The median (min-max) follow-up is
 \clearpage
 
 {{< include src/km_figs.qmd >}}
-
-\clearpage
-
-### Association between outcomes and QoL - Subgroups
-
-{{< include src/outcomes_subgroups.qmd >}}
 
 \clearpage
 

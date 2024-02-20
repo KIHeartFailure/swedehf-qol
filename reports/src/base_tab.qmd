@@ -295,3 +295,23 @@ basetabfunc(data = rsdata %>% filter(shf_ef_cat == "HFmrEF"), novar = "shf_ef_ca
 
 basetabfunc(data = rsdata %>% filter(shf_ef_cat == "HFpEF"), novar = "shf_ef_cat")
 ```
+
+```{r}
+#| label: tbl-base-in
+#| cache: true
+#| cache.comments: false
+#| dependson: basetabfunc
+#| tbl-cap: "Baseline characteristics - Out-patient"
+
+basetabfunc(data = rsdata %>% filter(shf_location == "Out-patient"), novar = "shf_location")
+```
+
+```{r}
+#| label: tbl-base-out
+#| cache: true
+#| cache.comments: false
+#| dependson: basetabfunc
+#| tbl-cap: "Baseline characteristics - In-patient"
+
+basetabfunc(data = rsdata %>% filter(shf_location == "In-patient"), novar = "shf_location")
+```
