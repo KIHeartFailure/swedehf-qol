@@ -13,6 +13,13 @@ rsdata <- rsdata %>%
       shf_indexyear <= 2015 ~ "2011-2015",
       shf_indexyear <= 2021 ~ "2016-2021"
     )),
+    shf_bpsys_cat = factor(
+      case_when(
+        shf_bpsys < 140 ~ 1,
+        shf_bpsys >= 140 ~ 2
+      ),
+      levels = 1:2, labels = c("<140", ">=140")
+    ),
     shf_qol_cat = forcats::fct_rev(shf_qol_cat),
     shf_age_cat = factor(case_when(
       shf_age <= 75 ~ 0,

@@ -75,45 +75,50 @@ outcomesfunc_inner <- function(data = rsdata, impdata = imprsdata, time, event, 
 
   if (fg) {
     out[4, 2] <- "Crude Sub-distributional Hazard Ratio (95% CI), p-value"
-    # mod <- summary(crr(
-    #   ftime = data %>% pull(!!sym(time)),
-    #   fstatus = data %>% pull(!!sym(paste0(event, "_cr"))),
-    #   cov1 = data %>% select(starts_with(paste0(xvar, "_cr_"))),
-    #   failcode = 1,
-    #   cencode = 0
-    # ))
-    #
-    # out[4, 3:6] <- c(
-    #   "reference",
-    #   paste0(
-    #     fn(mod$coef[, "exp(coef)"], dig = 2),
-    #     " (",
-    #     fn(exp(mod$coef[, "coef"] - global_z05 * mod$coef[, "se(coef)"]), dig = 2),
-    #     "-",
-    #     fn(exp(mod$coef[, "coef"] + global_z05 * mod$coef[, "se(coef)"]), dig = 2), "), ",
-    #     fn(mod$coef[, "p-value"], dig = 3, p = TRUE)
-    #   )
-    # )
+    mod <- summary(crr(
+      ftime = data %>% pull(!!sym(time)),
+      fstatus = data %>% pull(!!sym(paste0(event, "_cr"))),
+      cov1 = data %>% select(starts_with(paste0(xvar, "_cr_"))),
+      failcode = 1,
+      cencode = 0
+    ))
+
+    out[4, 3:6] <- c(
+      "reference",
+      paste0(
+        fn(mod$coef[, "exp(coef)"], dig = 2),
+        " (",
+        fn(exp(mod$coef[, "coef"] - global_z05 * mod$coef[, "se(coef)"]), dig = 2),
+        "-",
+        fn(exp(mod$coef[, "coef"] + global_z05 * mod$coef[, "se(coef)"]), dig = 2), "), ",
+        fn(mod$coef[, "p-value"], dig = 3, p = TRUE)
+      )
+    )
 
     out[5, 2] <- "Adjusted Sub-distributional Hazard Ratio (95% CI), p-value"
-    # modvars_crr2 <- c(vars_crr[str_detect(vars_crr, paste0(xvar, "_cr_"))], modvars_crr)
-    #  mod <- crr_mids(time, event = paste0(event, "_cr"), xvars = modvars_crr2, impdata)
-    #  mod <- summary(pool(mod))
+    if (!is.null(novar)) {
+      modvars_crr2 <- modvars_crr[!str_detect(modvars_crr, novar)]
+    } else {
+      modvars_crr2 <- modvars_crr
+    }
+    modvars_crr2 <- c(vars_crr[str_detect(vars_crr, paste0(xvar, "_cr_"))], modvars_crr2)
+    mod <- crr_mids(time, event = paste0(event, "_cr"), xvars = modvars_crr2, impdata)
+    mod <- summary(pool(mod))
 
-    # out[5, 3:6] <- c(
-    #    "reference",
-    #   paste0(
-    #      fn(exp(mod$estimate[1:(nlevs - 1)]), dig = 2),
-    #      " (", fn(exp(mod$estimate[1:(nlevs - 1)] - global_z05 * mod$std.error[1:(nlevs - 1)]), dig = 2),
-    #      "-", fn(exp(mod$estimate[1:(nlevs - 1)] + global_z05 * mod$std.error[1:(nlevs - 1)]), dig = 2), "), ",
-    #      fn(mod$p.value[1:(nlevs - 1)], dig = 3, p = TRUE)
-    #    )
-    #  )
+    out[5, 3:6] <- c(
+      "reference",
+      paste0(
+        fn(exp(mod$estimate[1:(nlevs - 1)]), dig = 2),
+        " (", fn(exp(mod$estimate[1:(nlevs - 1)] - global_z05 * mod$std.error[1:(nlevs - 1)]), dig = 2),
+        "-", fn(exp(mod$estimate[1:(nlevs - 1)] + global_z05 * mod$std.error[1:(nlevs - 1)]), dig = 2), "), ",
+        fn(mod$p.value[1:(nlevs - 1)], dig = 3, p = TRUE)
+      )
+    )
   }
   return(out)
 }
 
-outcomesfunc <- function(data, impdata, novar) {
+outcomesfunc <- function(data, impdata, novar, fgall = T) {
   out1 <- outcomesfunc_inner(
     data = data,
     impdata = impdata,
@@ -129,7 +134,8 @@ outcomesfunc <- function(data, impdata, novar) {
     time = outvars$time[2],
     event = outvars$var[2],
     eventname = outvars$name[2],
-    novar = novar
+    novar = novar,
+    fg = fgall
   )
   out3 <- outcomesfunc_inner(
     data = data,
@@ -137,7 +143,8 @@ outcomesfunc <- function(data, impdata, novar) {
     time = outvars$time[3],
     event = outvars$var[3],
     eventname = outvars$name[3],
-    novar = novar
+    novar = novar,
+    fg = fgall
   )
   out4 <- outcomesfunc_inner(
     data = data,
@@ -145,7 +152,8 @@ outcomesfunc <- function(data, impdata, novar) {
     time = outvars$time[4],
     event = outvars$var[4],
     eventname = outvars$name[4],
-    novar = novar
+    novar = novar,
+    fg = fgall
   )
   outall <- rbind(out1, out2, out3, out4)
 
@@ -155,7 +163,7 @@ outcomesfunc <- function(data, impdata, novar) {
     add_header_above(c(" " = 1, " " = 1, "QoL" = 4)) %>%
     footnote(
       general_title = "",
-      general = "Abbreviations: HF: Heart failure; CV: Cardiovascular; py: person-years; CI: Confidence interval"
+      general = "Abbreviations: py: person-years; CI: Confidence interval"
     )
 }
 ```
@@ -179,7 +187,7 @@ outcomesfunc(data = rsdata, impdata = imprsdata, novar = NULL)
 
 impdataref <- mice::filter(imprsdata, rsdata %>% pull(shf_ef_cat) == "HFrEF")
 
-outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFrEF"), impdata = impdataref, novar = "shf_ef_cat")
+outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFrEF"), impdata = impdataref, novar = "shf_ef_cat", fgall = F)
 ```
 
 ```{r}
@@ -191,7 +199,7 @@ outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFrEF"), impdata = impdatar
 
 impdatamref <- mice::filter(imprsdata, rsdata %>% pull(shf_ef_cat) == "HFmrEF")
 
-outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFmrEF"), impdata = impdatamref, novar = "shf_ef_cat")
+outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFmrEF"), impdata = impdatamref, novar = "shf_ef_cat", fgall = F)
 ```
 
 ```{r}
@@ -203,7 +211,7 @@ outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFmrEF"), impdata = impdata
 
 impdatapef <- mice::filter(imprsdata, rsdata %>% pull(shf_ef_cat) == "HFpEF")
 
-outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFpEF"), impdata = impdatapef, novar = "shf_ef_cat")
+outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFpEF"), impdata = impdatapef, novar = "shf_ef_cat", fgall = F)
 ```
 
 ```{r}
@@ -215,7 +223,7 @@ outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFpEF"), impdata = impdatap
 
 impdataout <- mice::filter(imprsdata, rsdata %>% pull(shf_location) == "Out-patient")
 
-outcomesfunc(data = rsdata %>% filter(shf_location == "Out-patient"), impdata = impdataout, novar = "shf_location")
+outcomesfunc(data = rsdata %>% filter(shf_location == "Out-patient"), impdata = impdataout, novar = "shf_location", fgall = F)
 ```
 
 ```{r}
@@ -227,5 +235,5 @@ outcomesfunc(data = rsdata %>% filter(shf_location == "Out-patient"), impdata = 
 
 impdatain <- mice::filter(imprsdata, rsdata %>% pull(shf_location) == "In-patient")
 
-outcomesfunc(data = rsdata %>% filter(shf_location == "In-patient"), impdata = impdatain, novar = "shf_location")
+outcomesfunc(data = rsdata %>% filter(shf_location == "In-patient"), impdata = impdatain, novar = "shf_location", fgall = F)
 ```

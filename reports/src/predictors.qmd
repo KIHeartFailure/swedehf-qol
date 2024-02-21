@@ -40,8 +40,7 @@ adj <- tibble(
 #| dependson: predictors
 #| fig-cap: "Independent associations between baseline characteristics and QoL"
 #| fig-width: 10
-#| fig-height: 6
-
+#| fig-height: 8
 
 adj <- left_join(adj,
   metavars %>%
@@ -62,7 +61,7 @@ adj <- left_join(adj,
       var == "shf_ef_catHFpEF" ~ "HFpEF vs HFrEF",
       var == "shf_nyha_catIII-IV" ~ "NYHA class III-IV vs I-II",
       var == "shf_bmi_cat>=30" ~ "BMI (kg/m²) >=30 vs <30",
-      var == "shf_map_cat>90" ~ "MAP >90 vs <=90",
+      var == "shf_bpsys_cat>=140" ~ "Systolic blood pressure (mmHg) >=140 vs <140",
       var == "shf_heartrate_cat>70" ~ "Heart rate (beats/min) >70 vs <=70",
       var == "shf_gfrckdepi_cat<60" ~ "eGFR (mL/min/1.73 m²) <60 vs >=60",
       var == "shf_potassium_catHyperkalemia" ~ "Hyperkalemia vs Normakalemia",
@@ -85,7 +84,7 @@ size_use <- 10
 # min(adj$lci)
 # max(adj$uci)
 
-xmin <- .5
+xmin <- .6
 xmax <- 9
 
 p1 <- ggplot(adj %>% filter(qol == "0-25"), aes(x = or, y = var2, color = cols)) +
@@ -93,7 +92,7 @@ p1 <- ggplot(adj %>% filter(qol == "0-25"), aes(x = or, y = var2, color = cols))
   geom_vline(xintercept = 1, linetype = "dashed", color = "grey", linewidth = 0.6) +
   # Add dot plot and error bars
   geom_errorbar(aes(xmin = lci, xmax = uci), width = 0, linewidth = 0.5) +
-  geom_point(size = 0.9, shape = 15) +
+  geom_point(size = 1.5, shape = 15) +
   scale_color_manual(values = global_cols[c(1, 2, 3)]) +
   theme_classic() +
   theme(
@@ -130,7 +129,7 @@ p2 <- ggplot(adj %>% filter(qol == "26-50"), aes(x = or, y = var2, color = cols)
   geom_vline(xintercept = 1, linetype = "dashed", color = "grey", linewidth = 0.6) +
   # Add dot plot and error bars
   geom_errorbar(aes(xmin = lci, xmax = uci), width = 0, linewidth = 0.5) +
-  geom_point(size = 0.9, shape = 15) +
+  geom_point(size = 1.5, shape = 15) +
   scale_color_manual(values = global_cols[c(1, 2, 3)]) +
   theme_classic() +
   theme(
@@ -167,7 +166,7 @@ p3 <- ggplot(adj %>% filter(qol == "51-75"), aes(x = or, y = var2, color = cols)
   geom_vline(xintercept = 1, linetype = "dashed", color = "grey", linewidth = 0.6) +
   # Add dot plot and error bars
   geom_errorbar(aes(xmin = lci, xmax = uci), width = 0, linewidth = 0.5) +
-  geom_point(size = 0.9, shape = 15) +
+  geom_point(size = 1.5, shape = 15) +
   scale_color_manual(values = global_cols[c(1, 2, 3)]) +
   theme_classic() +
   theme(
@@ -222,7 +221,7 @@ pall1 <- p1 + t1 +
     theme = theme(
       text = element_text(size = size_use, face = "bold"),
       plot.title = element_text(hjust = 0.5),
-      plot.subtitle = element_text(hjust = 0.5),
+      plot.subtitle = element_text(hjust = 0.5)
     )
   )
 
@@ -233,7 +232,7 @@ pall2 <- p2 + t2 +
     theme = theme(
       text = element_text(size = size_use, face = "bold"),
       plot.title = element_text(hjust = 0.5),
-      plot.subtitle = element_text(hjust = 0.5),
+      plot.subtitle = element_text(hjust = 0.5)
     )
   )
 
@@ -244,7 +243,7 @@ pall3 <- p3 + t3 +
     theme = theme(
       text = element_text(size = size_use, face = "bold"),
       plot.title = element_text(hjust = 0.5),
-      plot.subtitle = element_text(hjust = 0.5),
+      plot.subtitle = element_text(hjust = 0.5)
     )
   )
 
@@ -255,13 +254,13 @@ labs <- labs +
     theme = theme(
       text = element_text(size = size_use, face = "bold"),
       plot.title = element_text(hjust = 0.5),
-      plot.subtitle = element_text(hjust = 0.5),
+      plot.subtitle = element_text(hjust = 0.5)
     )
   )
 
 pall <- wrap_elements(labs) + wrap_elements(pall3) + wrap_elements(pall2) + wrap_elements(pall1) +
   plot_layout(nrow = 1)
 
-create_pptx(pall)
+create_pptx(pall, height = 8, width = 10)
 pall
 ```
