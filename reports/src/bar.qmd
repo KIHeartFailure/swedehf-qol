@@ -3,7 +3,7 @@
 #| label: fig-barplot
 #| cache: true
 #| cache.comments: false
-#| fig-cap: "QoL by EF"
+#| fig-cap: "EQ5D-vas by EF"
 
 figdata <- rsdata %>%
   group_by(shf_ef_cat, .drop = F) %>%
@@ -23,10 +23,11 @@ p <- ggplot(figdata, aes(x = shf_ef_cat, y = p, fill = shf_qol_cat)) +
     legend.position = "bottom",
     legend.box = "vertical",
     axis.text = element_text(color = "black"),
-    axis.title.x = element_blank()
+    axis.title.x = element_blank(),
+    legend.title = element_text(size = 21.6, face = "bold")
   ) +
-  labs(y = "Proportion (%)", fill = "QoL") +
-  geom_text(aes(label = fn(p, dec = 0)), position = position_dodge(width = 0.9), vjust = -0.25, size = 8, fontface = "bold")
+  labs(y = "Proportion (%)", fill = "EQ5D-vas") +
+  geom_text(aes(label = fn(p, dec = 0)), position = position_dodge(width = 0.9), vjust = -0.25, size = 7.6, fontface = "bold")
 
 create_pptx(p)
 p
@@ -36,7 +37,7 @@ p
 #| label: fig-doughnut
 #| cache: true
 #| cache.comments: false
-#| fig-cap: "QoL by EF (alternative to barchart above, don't use both!)"
+#| fig-cap: "EQ5D-vas by EF (alternative to barchart above, don't use both!)"
 #| fig-height: 6
 #| fig-width: 6
 
@@ -131,7 +132,7 @@ violinplotfunc <- function(var, vals = NULL) {
       legend.title = element_blank(),
       axis.title.x = element_blank()
     ) +
-    labs(y = "QoL")
+    labs(y = "EQ5D-vas")
 
   create_pptx(p)
   p
@@ -143,7 +144,7 @@ violinplotfunc <- function(var, vals = NULL) {
 #| cache: true
 #| cache.comments: false
 #| dependson: violinplotfunc
-#| fig-cap: "QoL by EF"
+#| fig-cap: "EQ5D-vas by EF"
 #| fig-subcap: ["Sex", "Age", "Location", "Duration HF", "NYHA", "Income"]
 #| layout-ncol: 2
 #| layout-nrow: 3

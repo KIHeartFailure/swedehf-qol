@@ -243,7 +243,7 @@ basetabfunc <- function(data, novars = NULL) {
     col.names = cn
   ) %>%
     add_indent(indent_rows) %>%
-    add_header_above(c(" " = 1, " " = 1, "QoL" = 4, " " = 1)) %>%
+    add_header_above(c(" " = 1, " " = 1, "EQ5D-vas" = 4, " " = 1)) %>%
     footnote(
       footnote_order = c("general", "symbol", "alphabet"),
       general_title = "",

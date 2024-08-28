@@ -1,5 +1,5 @@
 ---
-title: "Statistical report: QoL across the EF spectrum: an analysis from the Swedish Heart Failure Registry"
+title: "Statistical report: EQ5D-vas across the EF spectrum: an analysis from the Swedish Heart Failure Registry"
 date: "`r Sys.Date()`"
 cover: static/ki_logo_vert_rgb.png
 editor: source
@@ -131,13 +131,13 @@ comparisons were made and therefore the results should be viewed with care.
 
 Missing data was imputed with multiple imputation (n = 10) using mice [@mice] 
 and Rubin’s rules was used for combining estimates and standard errors across imputed data sets. 
-Variables included in the model are indicated in @tbl-base. QoL was not included in the model. 
+Variables included in the model are indicated in @tbl-base. EQ5D-vas was not included in the model. 
 The primary outcome, `r outvars$name[1]`, was included as the Nelson-Aalen estimator 
 in the model but itself not imputed since it contained no missing values.
 
 ## Baseline characteristics
 
-Baseline characteristics are presented by QoL. 
+Baseline characteristics are presented by EQ5D-vas. 
 Categorical variables are presented with n and percentage and tested for 
 differences between groups with the chi-square test. 
 Continuous variables are presented with median [first quartile-third quartile] and tested for 
@@ -145,9 +145,9 @@ differences between groups with the Kruskal-Wallis test.
 
 Separate analyses were further performed for the respective EF groups and in/out-patients. 
 
-## Independent associations between baseline characteristics and QoL
+## Independent associations between baseline characteristics and EQ5D-vas
 
-The association between baseline characteristics and QoL was evaluated using a multivariable multinominal regression 
+The association between baseline characteristics and EQ5D-vas was evaluated using a multivariable multinominal regression 
 including the variables indicated in @tbl-base (all shown in @fig-predictors). The variables were selected based on clinical relevance. 
 
 ### Assumptions
@@ -155,7 +155,7 @@ including the variables indicated in @tbl-base (all shown in @fig-predictors). T
 Possible outliers were evaluated using Cook's distance and multicollinearity was 
 evaluated using the Variance Inflation Factor (VIF) without any cause for action.  
 
-## Association between outcomes and QoL
+## Association between outcomes and EQ5D-vas
 
 The following outcomes are considered: 
 
@@ -164,7 +164,7 @@ The following outcomes are considered:
 - `r paste0(outvars$name[3], " (", outvars$shortname[3], ")")`
 - `r paste0(outvars$name[4], " (", outvars$shortname[4], ")")`
 
-Time to first events were presented with cumulative incidence curves by QoL. Separate figures were also performed for the respective EF groups and in/out-patients. 
+Time to first events were presented with cumulative incidence curves by EQ5D-vas. Separate figures were also performed for the respective EF groups and in/out-patients. 
 
 Crude and adjusted analyses were performed where adjustment was performed for 
 variables indicated in @tbl-base. 
@@ -209,13 +209,15 @@ The median (q1-q3) age is `r med` and `r percfem`% females.
 
 {{< include src/base_tab.qmd >}}
 
+{{< include src/base_tab_excluded.qmd >}}
+
 {{< include src/bar.qmd >}}
 
-## Independent associations between baseline characteristics and QoL
+## Independent associations between baseline characteristics and EQ5D-vas
 
 {{< include src/predictors.qmd >}}
 
-## Association between outcomes and QoL
+## Association between outcomes and EQ5D-vas
 
 ```{r}
 medsurv <- rsdata %>%
@@ -249,7 +251,7 @@ The median (min-max) follow-up is
 
 The R code for all data handling and statistical analyses are found: 
 
-https://github.com/KIHeartFailure/swedehf-qol. On publication
+https://github.com/KIHeartFailure/swedehf-eq5dvas. On publication
 the repository will be made public so as to 
 link to it from the resulting article for increased transparency and code sharing.
 No data or output is stored in the repository. 

@@ -26,6 +26,7 @@ save(
   list = c(
     "rsdata",
     "imprsdata",
+    "rsdataexclude",
     "flow",
     "modvars",
     "stratavars",

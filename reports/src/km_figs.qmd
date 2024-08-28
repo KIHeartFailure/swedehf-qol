@@ -77,16 +77,16 @@ kmfunc <- function(data = rsdata, impdata = imprsdata, time, event, eventname, n
     ) +
     labs(x = "Follow-up (months)", y = ylab) +
     annotate("text",
-      x = textadjx, y = c(textadjy, textadjy - 0.1, textadjy - 0.2, textadjy - 0.3, textadjy - 0.4), label = c("QoL", levs),
-      hjust = 0, size = 6, fontface = "bold", colour = c("black", global_cols[4:1])
+      x = textadjx, y = c(textadjy, textadjy - 0.1, textadjy - 0.2, textadjy - 0.3, textadjy - 0.4), label = c("EQ5D-vas", levs),
+      hjust = 0, size = 5.6, fontface = "bold", colour = c("black", global_cols[4:1])
     ) +
     annotate("text",
-      x = textadjx + 2.8, y = c(textadjy, textadjy - 0.1, textadjy - 0.2, textadjy - 0.3, textadjy - 0.4), label = cox_crude,
-      hjust = 0.5, size = 6, fontface = "bold", colour = c("black", global_cols[4:1])
+      x = textadjx + 3.2, y = c(textadjy, textadjy - 0.1, textadjy - 0.2, textadjy - 0.3, textadjy - 0.4), label = cox_crude,
+      hjust = 0.5, size = 5.6, fontface = "bold", colour = c("black", global_cols[4:1])
     ) +
     annotate("text",
-      x = textadjx + 6, y = c(textadjy, textadjy - 0.1, textadjy - 0.2, textadjy - 0.3, textadjy - 0.4), label = cox_adj,
-      hjust = 0.5, size = 6, fontface = "bold", colour = c("black", global_cols[4:1])
+      x = textadjx + 6.4, y = c(textadjy, textadjy - 0.1, textadjy - 0.2, textadjy - 0.3, textadjy - 0.4), label = cox_adj,
+      hjust = 0.5, size = 5.6, fontface = "bold", colour = c("black", global_cols[4:1])
     )
 
   # n at risk
@@ -103,7 +103,7 @@ kmfunc <- function(data = rsdata, impdata = imprsdata, time, event, eventname, n
     coord_cartesian(xlim = c(0, global_followup_months), clip = "off") +
     labs(
       subtitle = "No. at risk",
-      y = "QoL"
+      y = "EQ5D-vas"
     ) +
     theme(
       text = element_text(size = 20, face = "bold"),

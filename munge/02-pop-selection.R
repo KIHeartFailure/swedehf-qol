@@ -24,5 +24,12 @@ rsdata <- rsdata %>%
 
 flow <- rbind(flow, c("First post / patient", nrow(rsdata)))
 
+rsdataexclude <- anti_join(rsdata412, rsdata, by = "lopnr")
+rsdataexclude <- rsdataexclude %>%
+  group_by(lopnr) %>%
+  arrange(shf_indexdtm) %>%
+  slice(1) %>%
+  ungroup()
+
 rm(rsdata412)
 gc()

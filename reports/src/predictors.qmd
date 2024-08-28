@@ -38,7 +38,7 @@ adj <- tibble(
 #| cache: true
 #| cache.comments: false
 #| dependson: predictors
-#| fig-cap: "Independent associations between baseline characteristics and QoL"
+#| fig-cap: "Independent associations between baseline characteristics and EQ5D-vas"
 #| fig-width: 10
 #| fig-height: 8
 
@@ -216,7 +216,7 @@ labs <- ggplot(adj %>% filter(qol == "0-25"), aes(x = or, y = var2)) +
 
 pall1 <- p1 + t1 +
   plot_annotation(
-    title = "QoL 0-25 vs 76-100",
+    title = "EQ5D-vas 0-25 vs 76-100",
     subtitle = "Odds Ratio (95% CI)",
     theme = theme(
       text = element_text(size = size_use, face = "bold"),
@@ -227,7 +227,7 @@ pall1 <- p1 + t1 +
 
 pall2 <- p2 + t2 +
   plot_annotation(
-    title = "QoL 26-50 vs 76-100",
+    title = "EQ5D-vas 26-50 vs 76-100",
     subtitle = "Odds Ratio (95% CI)",
     theme = theme(
       text = element_text(size = size_use, face = "bold"),
@@ -238,7 +238,7 @@ pall2 <- p2 + t2 +
 
 pall3 <- p3 + t3 +
   plot_annotation(
-    title = "QoL 51-75 vs 76-100",
+    title = "EQ5D-vas 51-75 vs 76-100",
     subtitle = "Odds Ratio (95% CI)",
     theme = theme(
       text = element_text(size = size_use, face = "bold"),

@@ -160,7 +160,7 @@ outcomesfunc <- function(data, impdata, novar, fgall = T) {
   make_one_xlsxsheet(outall)
 
   default_kable(outall) %>%
-    add_header_above(c(" " = 1, " " = 1, "QoL" = 4)) %>%
+    add_header_above(c(" " = 1, " " = 1, "EQ5D-vas" = 4)) %>%
     footnote(
       general_title = "",
       general = "Abbreviations: py: person-years; CI: Confidence interval"
@@ -173,7 +173,7 @@ outcomesfunc <- function(data, impdata, novar, fgall = T) {
 #| cache: true
 #| cache.comments: false
 #| dependson: outcomesfunc
-#| tbl-cap: "Association between outcomes and QoL"
+#| tbl-cap: "Association between outcomes and EQ5D-vas"
 
 outcomesfunc(data = rsdata, impdata = imprsdata, novar = NULL)
 ```
@@ -183,7 +183,7 @@ outcomesfunc(data = rsdata, impdata = imprsdata, novar = NULL)
 #| cache: true
 #| cache.comments: false
 #| dependson: outcomesfunc
-#| tbl-cap: "Association between outcomes and QoL - HFrEF"
+#| tbl-cap: "Association between outcomes and EQ5D-vas - HFrEF"
 
 impdataref <- mice::filter(imprsdata, rsdata %>% pull(shf_ef_cat) == "HFrEF")
 
@@ -195,7 +195,7 @@ outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFrEF"), impdata = impdatar
 #| cache: true
 #| cache.comments: false
 #| dependson: outcomesfunc
-#| tbl-cap: "Association between outcomes and QoL - HFmrEF"
+#| tbl-cap: "Association between outcomes and EQ5D-vas - HFmrEF"
 
 impdatamref <- mice::filter(imprsdata, rsdata %>% pull(shf_ef_cat) == "HFmrEF")
 
@@ -207,7 +207,7 @@ outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFmrEF"), impdata = impdata
 #| cache: true
 #| cache.comments: false
 #| dependson: outcomesfunc
-#| tbl-cap: "Association between outcomes and QoL - HFpEF"
+#| tbl-cap: "Association between outcomes and EQ5D-vas - HFpEF"
 
 impdatapef <- mice::filter(imprsdata, rsdata %>% pull(shf_ef_cat) == "HFpEF")
 
@@ -219,7 +219,7 @@ outcomesfunc(data = rsdata %>% filter(shf_ef_cat == "HFpEF"), impdata = impdatap
 #| cache: true
 #| cache.comments: false
 #| dependson: outcomesfunc
-#| tbl-cap: "Association between outcomes and QoL - Out-patient"
+#| tbl-cap: "Association between outcomes and EQ5D-vas - Out-patient"
 
 impdataout <- mice::filter(imprsdata, rsdata %>% pull(shf_location) == "Out-patient")
 
@@ -231,7 +231,7 @@ outcomesfunc(data = rsdata %>% filter(shf_location == "Out-patient"), impdata = 
 #| cache: true
 #| cache.comments: false
 #| dependson: outcomesfunc
-#| tbl-cap: "Association between outcomes and QoL - In-patient"
+#| tbl-cap: "Association between outcomes and EQ5D-vas - In-patient"
 
 impdatain <- mice::filter(imprsdata, rsdata %>% pull(shf_location) == "In-patient")
 
