@@ -31,16 +31,6 @@ adj <- tibble(
     var = str_remove_all(var, fixed("Yes")),
     var = str_replace_all(var, "shf_sos_com_", "sos_com_")
   )
-```
-
-```{r}
-#| label: fig-predictors
-#| cache: true
-#| cache.comments: false
-#| dependson: predictors
-#| fig-cap: "Independent associations between baseline characteristics and EQ5D-vas"
-#| fig-width: 10
-#| fig-height: 8
 
 adj <- left_join(adj,
   metavars %>%
@@ -100,7 +90,7 @@ p1 <- ggplot(adj %>% filter(qol == "0-25"), aes(x = or, y = var2, color = cols))
     legend.position = "none",
     axis.ticks.y = element_blank(),
     axis.title = element_blank(),
-    axis.text.y = element_blank(),
+    #axis.text.y = element_blank(),
     axis.line.y = element_line(colour = "white"),
     plot.margin = unit(c(0, 0, 0, 0), "mm"),
     axis.text.x = element_text(color = "black"),
@@ -137,7 +127,7 @@ p2 <- ggplot(adj %>% filter(qol == "26-50"), aes(x = or, y = var2, color = cols)
     legend.position = "none",
     axis.ticks.y = element_blank(),
     axis.title = element_blank(),
-    axis.text.y = element_blank(),
+    #axis.text.y = element_blank(),
     axis.line.y = element_line(colour = "white"),
     plot.margin = unit(c(0, 0, 0, 0), "mm"),
     axis.text.x = element_text(color = "black"),
@@ -174,7 +164,7 @@ p3 <- ggplot(adj %>% filter(qol == "51-75"), aes(x = or, y = var2, color = cols)
     legend.position = "none",
     axis.ticks.y = element_blank(),
     axis.title = element_blank(),
-    axis.text.y = element_blank(),
+    #axis.text.y = element_blank(),
     axis.line.y = element_line(colour = "white"),
     plot.margin = unit(c(0, 0, 0, 0), "mm"),
     axis.text.x = element_text(color = "black"),
@@ -191,22 +181,6 @@ t3 <- ggplot(adj %>% filter(qol == "51-75")) +
     axis.ticks.y = element_blank(),
     axis.title = element_blank(),
     axis.text.y = element_blank(),
-    axis.line.y = element_line(colour = "white"),
-    plot.margin = unit(c(0, 0, 0, 0), "mm"),
-    axis.line.x = element_line(color = "white"),
-    axis.ticks.x = element_line(color = "white"),
-    axis.text.x = element_text(color = "white")
-  )
-
-labs <- ggplot(adj %>% filter(qol == "0-25"), aes(x = or, y = var2)) +
-  geom_blank() +
-  theme_classic() +
-  theme(
-    text = element_text(size = size_use, face = "bold"),
-    legend.position = "none",
-    axis.ticks.y = element_blank(),
-    axis.title = element_blank(),
-    axis.text.y = element_text(color = "black", hjust = 0),
     axis.line.y = element_line(colour = "white"),
     plot.margin = unit(c(0, 0, 0, 0), "mm"),
     axis.line.x = element_line(color = "white"),
@@ -246,21 +220,43 @@ pall3 <- p3 + t3 +
       plot.subtitle = element_text(hjust = 0.5)
     )
   )
+```
 
-labs <- labs +
-  plot_annotation(
-    title = " ",
-    subtitle = " ",
-    theme = theme(
-      text = element_text(size = size_use, face = "bold"),
-      plot.title = element_text(hjust = 0.5),
-      plot.subtitle = element_text(hjust = 0.5)
-    )
-  )
+```{r}
+#| label: fig-predictors-1
+#| cache: true
+#| cache.comments: false
+#| dependson: predictors
+#| fig-cap: "Independent associations between baseline characteristics and EQ5D-vas 0-25 vs 76-100"
+#| fig-width: 6
+#| fig-height: 8
 
-pall <- wrap_elements(labs) + wrap_elements(pall3) + wrap_elements(pall2) + wrap_elements(pall1) +
-  plot_layout(nrow = 1)
+create_pptx(pall1, height = 8, width = 6)
+pall1
+```
 
-create_pptx(pall, height = 8, width = 10)
-pall
+```{r}
+#| label: fig-predictors-2
+#| cache: true
+#| cache.comments: false
+#| dependson: predictors
+#| fig-cap: "Independent associations between baseline characteristics and EQ5D-vas 26-50 vs 76-100"
+#| fig-width: 6
+#| fig-height: 8
+
+create_pptx(pall2, height = 8, width = 6)
+pall2
+```
+
+```{r}
+#| label: fig-predictors-3
+#| cache: true
+#| cache.comments: false
+#| dependson: predictors
+#| fig-cap: "Independent associations between baseline characteristics and EQ5D-vas 51-75 vs 76-100"
+#| fig-width: 6
+#| fig-height: 8
+
+create_pptx(pall3, height = 8, width = 6)
+pall3
 ```

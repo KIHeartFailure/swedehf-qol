@@ -148,7 +148,7 @@ Separate analyses were further performed for the respective EF groups and in/out
 ## Independent associations between baseline characteristics and EQ5D-vas
 
 The association between baseline characteristics and EQ5D-vas was evaluated using a multivariable multinominal regression 
-including the variables indicated in @tbl-base (all shown in @fig-predictors). The variables were selected based on clinical relevance. 
+including the variables indicated in @tbl-base (all shown in Forestplots). The variables were selected based on clinical relevance. 
 
 ### Assumptions
 
