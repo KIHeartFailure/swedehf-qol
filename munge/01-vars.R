@@ -41,6 +41,10 @@ tabvars <- c(
   "shf_hb",
   "shf_ntprobnp",
   "shf_ntprobnp_cat",
+  "shf_ntprobnp_af",
+  "shf_ntprobnp_af_cat",
+  "shf_ntprobnp_sinus",
+  "shf_ntprobnp_sinus_cat",
 
   # comorbs
   "shf_smoke_cat",
@@ -91,6 +95,10 @@ tabvars_not_in_mod <- c(
   "shf_gfrckdepi",
   "shf_hb",
   "shf_ntprobnp",
+  "shf_ntprobnp_af",
+  "shf_ntprobnp_af_cat",
+  "shf_ntprobnp_sinus",
+  "shf_ntprobnp_sinus_cat",
   "shf_potassium",
   "shf_potassium_cat",
   "shf_bmi",
@@ -122,3 +130,23 @@ outvars <- tibble(
   order = c(1, 2, 3, 4)
 ) %>%
   arrange(order)
+
+
+metavars <- bind_rows(
+  metavars,
+  tibble(
+    variable = c(
+      "shf_ntprobnp_af",
+      "shf_ntprobnp_sinus"
+    ),
+    label = c(
+      "NT-proBNP in AF rhythm",
+      "NT-proBNP in Sinus/PM/Other rhythm"
+    ), 
+    unit = c(
+      "pg/mL",
+      "pg/mL"
+    )
+  )
+)
+

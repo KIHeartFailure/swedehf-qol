@@ -33,6 +33,10 @@ rsdata <- rsdata %>%
       ),
       levels = 1:2, labels = c("Compulsory/secondary school", "University")
     ),
+    shf_ntprobnp_af = if_else(!is.na(shf_ekg) & shf_ekg == "Atrial fibrillation", shf_ntprobnp, NA_real_), 
+    shf_ntprobnp_sinus = if_else(!is.na(shf_ekg) & shf_ekg != "Atrial fibrillation", shf_ntprobnp, NA_real_), 
+    shf_ntprobnp_af_cat = factor(if_else(!is.na(shf_ekg) & shf_ekg == "Atrial fibrillation", shf_ntprobnp_cat, NA_character_)), 
+    shf_ntprobnp_sinus_cat = factor(if_else(!is.na(shf_ekg) & shf_ekg != "Atrial fibrillation", shf_ntprobnp_cat, NA_character_)), 
     # comp risk outcomes
     sos_out_deathcv_cr = create_crevent(sos_out_deathcv, sos_out_death, eventvalues = c("Yes", "Yes")),
     sos_out_hosphf_cr = create_crevent(sos_out_hosphf, sos_out_death, eventvalues = c("Yes", "Yes")),

@@ -177,6 +177,26 @@ basetabfunc <- function(data, novars = NULL) {
       Variable = str_replace_all(Variable, fixed("Disposable income (100 SEK)"), "Income")
     )
 
+  # special fix for NT-proBNP by ekg
+  misntekg <- data %>%
+    filter(!is.na(shf_qol_cat) & !is.na(shf_ekg)) %>%
+    mutate(
+      shf_ekg = case_match(shf_ekg, c("Sinus", "PM/Other") ~ "Sinus/PM/Other", .default = shf_ekg),
+      mis = factor(if_else(is.na(shf_ntprobnp), 1, 0), levels = 0:1)
+    ) %>%
+    group_by(shf_ekg) %>%
+    count(mis, .drop = F) %>%
+    mutate(pmis = fn(n / sum(n) * 100, catdig)) %>%
+    filter(mis == "1") %>%
+    ungroup()
+
+  tab <- tab %>%
+    mutate(pmis = case_when(
+      str_detect(var, "shf_ntprobnp_af") ~ misntekg %>% filter(shf_ekg == "Atrial fibrillation") %>% pull(pmis),
+      str_detect(var, "shf_ntprobnp_sinus") ~ misntekg %>% filter(shf_ekg == "Sinus/PM/Other") %>% pull(pmis),
+      TRUE ~ pmis
+    ))
+
   # footnotes
   tab <- tab %>%
     mutate(
@@ -237,7 +257,7 @@ basetabfunc <- function(data, novars = NULL) {
   cn <- sanitize_text(cn)
 
   default_kable(tab,
-    font_size = 7.5,
+    font_size = 5,
     longtable = TRUE,
     escape = FALSE,
     col.names = cn
